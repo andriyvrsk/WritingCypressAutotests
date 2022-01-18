@@ -7,7 +7,7 @@ describe('myTest', () => {
     cy.wait(8000);
     cy.viewport(768, 1024);
     cy.wait(8000);
-    cy.viewport(414, 900); 
+    cy.viewport(414, 896); 
   })
 })
 
