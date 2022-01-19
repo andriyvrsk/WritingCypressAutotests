@@ -6,10 +6,11 @@ let usernameLocator2 = '[id="txtUsername"]';
 let passwordLocator1 = '#txtPassword'; 
 let passwordLocator2 = '[id="txtPassword"]'; 
 
-let submtButtonLocator1 = '#Submit'; 
+let submitButtonLocator1 = '#btnLogin'; 
 let submitButtonLocator2 = '[name="Submit"]';
+let submitButtonLocator3 = '.button';
 
-describe('myTest', () => {
+describe('different screen resolutions', () => {
   it('diffScreenResolutions', () => {
     cy.visit('https://opensource-demo.orangehrmlive.com/');
     cy.viewport(1280, 1024);
@@ -20,3 +21,35 @@ describe('myTest', () => {
   })
 })
 
+describe('positive login check', () => {
+  it('loginCheckPos', () => {
+    cy.visit('https://opensource-demo.orangehrmlive.com/');
+    cy.get(usernameLocator1).type('Admin');
+    cy.get(passwordLocator1).type('admin123');
+    cy.get(submitButtonLocator3).click();
+    cy.url().should('contain', 'https://opensource-demo.orangehrmlive.com/index.php/dashboard');
+    cy.get('[class="head"]').should('contain', 'Dashboard');
+    cy.get('.panelTrigger').click();
+    cy.get('[href="/index.php/auth/logout"]').click();
+  })
+})
+
+describe('negative login check', () => {
+  it('loginCheckWrongPass', () => {
+    cy.visit('https://opensource-demo.orangehrmlive.com/');
+    cy.get(usernameLocator1).type('Admin');
+    cy.get(passwordLocator1).type('12345');
+    cy.get(submitButtonLocator3).click();
+    cy.get('[id="spanMessage"]').should('contain', 'Invalid credentials');
+  })
+})
+
+describe('negative login check', () => {
+  it('loginCheckWrongUsername', () => {
+    cy.visit('https://opensource-demo.orangehrmlive.com/');
+    cy.get(usernameLocator1).type('Administrator');
+    cy.get(passwordLocator1).type('admin123');
+    cy.get(submitButtonLocator3).click();
+    cy.get('[id="spanMessage"]').should('contain', 'Invalid credentials');
+  })
+})
