@@ -1,9 +1,9 @@
 const { describe } = require("mocha");
-const loginPage = require ('../integration/LoginPage_po.js');
+const LoginPage = require ('./LoginPage_po');
 
 describe('different screen resolutions', () => {
   it('diffScreenResolutions', () => {
-    loginPage.navigateTo();
+    LoginPage.navigateTo();
     cy.viewport(1280, 1024);
     cy.wait(1000);
     cy.viewport(768, 1024);
@@ -14,8 +14,8 @@ describe('different screen resolutions', () => {
 
 describe('positive login check', () => {
   it('loginCheckPos', () => {
-    loginPage.navigateTo();
-    loginPage.logIn();
+    LoginPage.navigateTo();
+    LoginPage.logIn();
     cy.url().should('contain', 'https://opensource-demo.orangehrmlive.com/index.php/dashboard');
     cy.get('[class="head"]').should('contain', 'Dashboard');
     cy.get('.panelTrigger').click();
@@ -25,16 +25,18 @@ describe('positive login check', () => {
 
 describe('negative login check', () => {
   it('loginCheckWrongPass', () => {
-    loginPage.navigateTo();
-    loginPage.logIn('Admin', '123');
-    cy.get('[id="spanMessage"]').should('contain', 'Invalid credentials');
+    LoginPage.navigateTo();
+    LoginPage.logIn('Admin', '123');
+    LoginPage.errorMsgCheck('Invalid credentials');
+    LoginPage.urlCheck();
   })
 })
 
 describe('negative login check', () => {
   it('loginCheckWrongUsername', () => {
-    loginPage.navigateTo();
-    loginPage.logIn('Administrator', 'admin123');
-    cy.get('[id="spanMessage"]').should('contain', 'Invalid credentials');
+    LoginPage.navigateTo();
+    LoginPage.logIn('Administrator', 'admin123');
+    LoginPage.errorMsgCheck('Invalid credentials');
+    LoginPage.urlCheck();
   })
 })
