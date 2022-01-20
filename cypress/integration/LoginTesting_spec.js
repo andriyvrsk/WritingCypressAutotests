@@ -1,18 +1,9 @@
 const { describe } = require("mocha");
-
-let usernameLocator1 = '#txtUsername'; 
-let usernameLocator2 = '[id="txtUsername"]'; 
- 
-let passwordLocator1 = '#txtPassword'; 
-let passwordLocator2 = '[id="txtPassword"]'; 
-
-let submitButtonLocator1 = '#btnLogin'; 
-let submitButtonLocator2 = '[name="Submit"]';
-let submitButtonLocator3 = '.button';
+const loginPage = require ('../integration/LoginPage_po.js');
 
 describe('different screen resolutions', () => {
   it('diffScreenResolutions', () => {
-    navigateTo();
+    loginPage.navigateTo();
     cy.viewport(1280, 1024);
     cy.wait(1000);
     cy.viewport(768, 1024);
@@ -23,8 +14,8 @@ describe('different screen resolutions', () => {
 
 describe('positive login check', () => {
   it('loginCheckPos', () => {
-    navigateTo();
-    logIn();
+    loginPage.navigateTo();
+    loginPage.logIn();
     cy.url().should('contain', 'https://opensource-demo.orangehrmlive.com/index.php/dashboard');
     cy.get('[class="head"]').should('contain', 'Dashboard');
     cy.get('.panelTrigger').click();
@@ -34,26 +25,16 @@ describe('positive login check', () => {
 
 describe('negative login check', () => {
   it('loginCheckWrongPass', () => {
-    navigateTo();
-    logIn('Admin', '123');
+    loginPage.navigateTo();
+    loginPage.logIn('Admin', '123');
     cy.get('[id="spanMessage"]').should('contain', 'Invalid credentials');
   })
 })
 
 describe('negative login check', () => {
   it('loginCheckWrongUsername', () => {
-    navigateTo();
-    logIn('Administrator', 'admin123');
+    loginPage.navigateTo();
+    loginPage.logIn('Administrator', 'admin123');
     cy.get('[id="spanMessage"]').should('contain', 'Invalid credentials');
   })
 })
-
-function navigateTo (url = 'https://opensource-demo.orangehrmlive.com/') {
-  cy.visit(url);
-}
-
-function logIn(username = 'Admin', password = 'admin123') {
-  cy.get(usernameLocator1).type(username);
-  cy.get(passwordLocator1).type(password);
-  cy.get(submitButtonLocator3).click();
-}
