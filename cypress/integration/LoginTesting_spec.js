@@ -5,6 +5,7 @@ beforeEach(() => {
   LoginPage.navigateTo();
 })
 
+
 describe('different screen resolutions', () => {
   it('diffScreenResolutions', () => {
     cy.viewport(1280, 1024);
@@ -35,7 +36,7 @@ describe('negative login check', () => {
 
 describe('negative login check', () => {
   it('loginCheckWrongUsername', () => {
-    LoginPage.logIn('Administrator', 'admin123');
+    LoginPage.logIn(LoginPage.getRandEmail(), 'admin123');
     LoginPage.errorMsgCheck('Invalid credentials');
     LoginPage.urlCheck();
   })

@@ -1,4 +1,6 @@
 
+var randomEmail = require('random-email');
+
 let usernameLocator = '#txtUsername';
 let passwordLocator = '#txtPassword'; 
 let submitButtonLocator = '#btnLogin'; 
@@ -23,6 +25,10 @@ class LoginPage{
 
   urlCheck(){
     cy.url().should('contain', 'index.php/auth/validateCredentials');
+  };
+
+  getRandEmail() {
+    return randomEmail({ domain: 'test.com' });
   };
 } 
 
