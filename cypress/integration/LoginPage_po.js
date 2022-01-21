@@ -13,7 +13,7 @@ class LoginPage{
     };
       
 
-  logIn(username = 'Admin', password = 'admin123') {
+  logIn(username, password) {
       cy.get(usernameLocator).type(username);
       cy.get(passwordLocator).type(password);
       cy.get(submitButtonLocator).click();

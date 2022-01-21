@@ -3,8 +3,14 @@ const LoginPage = require ('./LoginPage_po');
 
 beforeEach(() => {
   LoginPage.navigateTo();
-})
-
+});
+before(function() {
+  cy.fixture('../fixtures/users.json');
+  cy.fixture('users').then(function (data) {
+    this.data = data; 
+  });
+  return this.data;
+});
 
 describe('different screen resolutions', () => {
   it('diffScreenResolutions', () => {
@@ -16,9 +22,10 @@ describe('different screen resolutions', () => {
   })
 })
 
-describe('positive login check', () => {
-  it('loginCheckPos', () => {
-    LoginPage.logIn();
+describe('positive login check', function () {
+  it('loginCheckPos', function() {
+    cy.log("this", this.data[0].username);
+    LoginPage.logIn(this.data[0].username, this.data[0].password);
     cy.url().should('contain', 'https://opensource-demo.orangehrmlive.com/index.php/dashboard');
     cy.get('[class="head"]').should('contain', 'Dashboard');
     cy.get('.panelTrigger').click();
