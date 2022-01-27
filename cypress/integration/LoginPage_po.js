@@ -1,10 +1,10 @@
 
 var randomEmail = require('random-email');
 
-let usernameLocator = '#txtUsername';
-let passwordLocator = '#txtPassword'; 
-let submitButtonLocator = '#btnLogin'; 
-let errorMessageLocator ='#spanMessage'
+const usernameLocator = '#txtUsername';
+const passwordLocator = '#txtPassword'; 
+const submitButtonLocator = '#btnLogin'; 
+const errorMessageLocator ='#spanMessage'
 
 class LoginPage{
     

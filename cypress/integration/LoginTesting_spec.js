@@ -1,11 +1,13 @@
 const { describe } = require("mocha");
 const LoginPage = require ('./LoginPage_po');
-
+const DashboardPage = require ('./DashboardPage_po');
+/// <reference types = "Cypress" />
+let invUsers;
 beforeEach(() => {
   LoginPage.navigateTo();
 });
+
 before(function() {
-  cy.fixture('../fixtures/users.json');
   cy.fixture('users').then(function (data) {
     this.data = data; 
   });
@@ -24,18 +26,21 @@ describe('different screen resolutions', () => {
 
 describe('positive login check', function () {
   it('loginCheckPos', function() {
-    cy.log("this", this.data[0].username);
     LoginPage.logIn(this.data[0].username, this.data[0].password);
-    cy.url().should('contain', 'https://opensource-demo.orangehrmlive.com/index.php/dashboard');
-    cy.get('[class="head"]').should('contain', 'Dashboard');
-    cy.get('.panelTrigger').click();
-    cy.get('[href="/index.php/auth/logout"]').click();
+    DashboardPage.urlCheck();
+    DashboardPage.headerCheck();
+    DashboardPage.logOut();
   })
 })
 
 describe('negative login check', () => {
+  it('fixture', function(){
+    cy.fixture('invalidUsers').then(invalidUsers => {
+      invUsers = invalidUsers;
+    });
+  });
   it('loginCheckWrongPass', () => {
-    LoginPage.logIn('Admin', '123');
+    LoginPage.logIn(invUsers["user1"].name, invUsers["user1"].password);
     LoginPage.errorMsgCheck('Invalid credentials');
     LoginPage.urlCheck();
   })
